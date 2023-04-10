@@ -1,0 +1,49 @@
+﻿<div class="row my-4">
+    <div class="col-md-12">
+        <h4 class="mb-3">Users Details</h4>
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+          <span *ngIf="errorMessage">{{errorMessage}}</span>
+        </div>
+        <form [formGroup]="formGroup" (ngSubmit)="submit()" novalidate>
+            <div class="form-group">
+              <label for="firstName">First Name</label>
+              <input formControlName="firstName" id="firstName" class="form-control" [ngClass]="{ 'is-invalid': isInvalid('firstName') }">
+              <div *ngIf="isInvalid('firstName')" class="invalid-feedback">
+                  <span *ngIf="firstName.errors?.required">First Name is required</span>
+                  <span *ngIf="firstName.errors?.maxlength">First Name most be max 100 characters long</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name</label>
+              <input formControlName="lastName" id="lastName" class="form-control" [ngClass]="{ 'is-invalid': isInvalid('lastName') }">
+              <div *ngIf="isInvalid('lastName')" class="invalid-feedback">
+                  <span *ngIf="lastName.errors?.required">Last Name is required</span>
+                  <span *ngIf="lastName.errors?.maxlength">Last Name most be max 100 characters long</span>
+              </div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input formControlName="email" id="email" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number</label>
+                <input formControlName="phoneNumber" id="phoneNumber" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="emailConfirmed">Email Confirmed: </label> {{users?.emailConfirmed | yesNo}}
+            </div>
+            <div class="form-group">
+                <label for="phoneNumberConfirmed">Phone Number Confirmed: </label> {{users?.phoneNumberConfirmed | yesNo}}
+            </div>
+            <div class="form-group">
+                <label for="twoFactorEnabled">Two Factor Enabled: </label> {{users?.twoFactorEnabled | yesNo}}
+            </div>
+            <hr class="mb-4">
+            <div class="float-right">
+                <a routerLink="/users" class="btn btn-secondary mr-2">Cancel</a>
+                <button *ngIf="id" type="button" (click)="delete()" class="btn btn-secondary mr-2">Delete</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

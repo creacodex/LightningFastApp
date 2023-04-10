@@ -1,0 +1,85 @@
+<div class="row my-4">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <a routerLink="../edit" class="btn btn-primary float-right">Add</a>
+            </div>
+        </div>
+        <h4 class="mb-3">Client List</h4>
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+            <span *ngIf="errorMessage">{{errorMessage}}</span>
+        </div>
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" novalidate>
+            <div class="form-row">
+                <div class="col-9">
+                    <div class="input-group mb-3">
+                        <input type="text" formControlName="search" class="form-control" placeholder="Search for">
+                        <button (click)="clear()" *ngIf="formGroup.get('search').value" class="btn bg-transparent clear">
+                            <i class="fa fa-times"></i>
+                          </button>
+                    </div>
+                </div>
+                <div class="col-1">
+                    <button type="button" (click)="searchFor()" class="btn btn-primary">Search</button>
+                </div>
+                <div class="col-1 offset-1">
+                    <select [(ngModel)]="pageSize" (change)="onPageSizeChange()" [ngModelOptions]="{standalone: true}" class="form-control">
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="75">75</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+            <table class="table table-hover mt-3">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col" sortable="birthdayDate" (sort)="onSort($event)">BirthdayDate</th>
+                        <th scope="col" sortable="firstName" (sort)="onSort($event)">FirstName</th>
+                        <th scope="col" sortable="lastName" (sort)="onSort($event)">LastName</th>
+                        <th scope="col" sortable="email" (sort)="onSort($event)">Email</th>
+                        <th scope="col" sortable="phone01" (sort)="onSort($event)">Phone01</th>
+                        <th scope="col" sortable="webSite" (sort)="onSort($event)">WebSite</th>
+                        <th scope="col" sortable="isActive" (sort)="onSort($event)" class="text-center">IsActive</th>
+                        <th scope="col" sortable="startDate" (sort)="onSort($event)">StartDate</th>
+                        <th scope="col" sortable="updateDate" (sort)="onSort($event)">UpdateDate</th>
+                        <th scope="col" sortable="isDeleted" (sort)="onSort($event)" class="text-center">IsDeleted</th>
+                        <th scope="col" sortable="deleteDate" (sort)="onSort($event)">DeleteDate</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="!entitiesResult" class="text-center">
+                        <td colspan="3">Loading...</td>
+                    </tr>
+                    <tr *ngFor="let client of entitiesResult?.entities">
+                        <td>{{client.birthdayDate | date:"dd/MM/yyyy" }}</td>
+                        <td>{{client.firstName}}</td>
+                        <td>{{client.lastName}}</td>
+                        <td>{{client.email}}</td>
+                        <td>{{client.phone01}}</td>
+                        <td>{{client.webSite}}</td>
+                        <td class="text-center">{{client.isActive | yesNo }}</td>
+                        <td>{{client.startDate | date:"dd/MM/yyyy" }}</td>
+                        <td>{{client.updateDate | date:"dd/MM/yyyy" }}</td>
+                        <td class="text-center">{{client.isDeleted | yesNo }}</td>
+                        <td>{{client.deleteDate | date:"dd/MM/yyyy" }}</td>
+                        <td class="text-right">
+                            <a [routerLink]="['../edit', client.id]" class="btn btn-link">Edit</a>|
+                            <button type="button" (click)="delete(client.id)" class="btn btn-link" >Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="form-row">
+                <div class="col-8">
+                    <span>Total records</span>&nbsp;<span>{{totalRows}}</span>
+                </div>
+                <div class="col-4" >
+                    <ngb-pagination [collectionSize]="totalRows" [(page)]="page" [pageSize]="pageSize" (pageChange)="onPagerChange()" class="d-flex justify-content-end">
+                    </ngb-pagination>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

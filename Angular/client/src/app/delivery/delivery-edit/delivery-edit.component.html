@@ -1,0 +1,118 @@
+<div class="row my-4">
+    <div class="col-md-12">
+        <h4 class="mb-3">Delivery Details</h4>
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+            <span *ngIf="errorMessage">{{errorMessage}}</span>
+        </div>
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" novalidate>
+            <div class="form-group">
+                <label for="reference">Reference</label>
+                <input formControlName="reference" id="reference" class="form-control" [ngClass]="{ 'is-invalid': isInvalid('reference') }">
+                <div *ngIf="isInvalid('reference')" class="invalid-feedback">
+                    <span *ngIf="reference.errors?.required">Reference is required</span>
+                    <span *ngIf="reference.errors?.min">Reference must be min 0</span>
+                    <span *ngIf="reference.errors?.max">Reference must be max 2147483647</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="startDate">StartDate</label>
+                <div class="input-group" [ngClass]="{ 'is-invalid': isInvalid('startDate') }">
+                    <input formControlName="startDate" id="startDate" [minDate]="minDate" [maxDate]="maxDate" #dpStartDate="ngbDatepicker" ngbDatepicker placeholder="mm-dd-yyyy" class="form-control" [ngClass]="{ 'is-invalid': isInvalid('startDate') }">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="dpStartDate.toggle()" type="button"></button>
+                    </div>
+                </div>
+                <div *ngIf="isInvalid('startDate')" class="invalid-feedback">
+                    <span *ngIf="startDate.errors?.required">StartDate is required</span>
+                    <span *ngIf="startDate.errors?.ngbDate" >Invalid date</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="updateDate">UpdateDate</label>
+                <div class="input-group" [ngClass]="{ 'is-invalid': isInvalid('updateDate') }">
+                    <input formControlName="updateDate" id="updateDate" [minDate]="minDate" [maxDate]="maxDate" #dpUpdateDate="ngbDatepicker" ngbDatepicker placeholder="mm-dd-yyyy" class="form-control" [ngClass]="{ 'is-invalid': isInvalid('updateDate') }">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="dpUpdateDate.toggle()" type="button"></button>
+                    </div>
+                </div>
+                <div *ngIf="isInvalid('updateDate')" class="invalid-feedback">
+                    <span *ngIf="updateDate.errors?.ngbDate" >Invalid date</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="shippingTypeId">ShippingTypeId</label>
+                <select formControlName="shippingTypeId" id="shippingTypeId" class="form-control" [ngClass]="{ 'is-invalid': isInvalid('shippingTypeId') }">
+                    <option *ngFor="let item of shippingTypeList" [value]="item.id">{{item.name}}</option>
+                </select>
+                <div *ngIf="isInvalid('shippingTypeId')" class="invalid-feedback">
+                    <span *ngIf="shippingTypeId.errors?.required">ShippingTypeId is required</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="carrierTypeId">CarrierTypeId</label>
+                <select formControlName="carrierTypeId" id="carrierTypeId" class="form-control" [ngClass]="{ 'is-invalid': isInvalid('carrierTypeId') }">
+                    <option *ngFor="let item of carrierTypeList" [value]="item.id">{{item.name}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="deliveryDate">DeliveryDate</label>
+                <div class="input-group" [ngClass]="{ 'is-invalid': isInvalid('deliveryDate') }">
+                    <input formControlName="deliveryDate" id="deliveryDate" [minDate]="minDate" [maxDate]="maxDate" #dpDeliveryDate="ngbDatepicker" ngbDatepicker placeholder="mm-dd-yyyy" class="form-control" [ngClass]="{ 'is-invalid': isInvalid('deliveryDate') }">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="dpDeliveryDate.toggle()" type="button"></button>
+                    </div>
+                </div>
+                <div *ngIf="isInvalid('deliveryDate')" class="invalid-feedback">
+                    <span *ngIf="deliveryDate.errors?.required">DeliveryDate is required</span>
+                    <span *ngIf="deliveryDate.errors?.ngbDate" >Invalid date</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity</label>
+                <input formControlName="quantity" id="quantity" class="form-control" [ngClass]="{ 'is-invalid': isInvalid('quantity') }">
+                <div *ngIf="isInvalid('quantity')" class="invalid-feedback">
+                    <span *ngIf="quantity.errors?.required">Quantity is required</span>
+                    <span *ngIf="quantity.errors?.min">Quantity must be min 0</span>
+                    <span *ngIf="quantity.errors?.max">Quantity must be max 2147483647</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input formControlName="price" id="price" class="form-control" [ngClass]="{ 'is-invalid': isInvalid('price') }">
+                <div *ngIf="isInvalid('price')" class="invalid-feedback">
+                    <span *ngIf="price.errors?.required">Price is required</span>
+                    <span *ngIf="price.errors?.min">Price must be min 0</span>
+                    <span *ngIf="price.errors?.max">Price must be max 999999999.99</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="discount">Discount</label>
+                <input formControlName="discount" id="discount" class="form-control" [ngClass]="{ 'is-invalid': isInvalid('discount') }">
+                <div *ngIf="isInvalid('discount')" class="invalid-feedback">
+                    <span *ngIf="discount.errors?.min">Discount must be min 0</span>
+                    <span *ngIf="discount.errors?.max">Discount must be max 999999999.99</span>
+                </div>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" formControlName="acceptCondition" id="acceptCondition" class="form-check-input">
+                <label for="acceptCondition" class="form-check-label">AcceptConditions</label>
+            </div>
+            <div class="form-group">
+                <label for="clientId">ClientId</label>
+                <input formControlName="clientId" id="clientId" class="form-control" [ngClass]="{ 'is-invalid': isInvalid('clientId') }">
+                <div *ngIf="isInvalid('clientId')" class="invalid-feedback">
+                    <span *ngIf="clientId.errors?.required">ClientId is required</span>
+                </div>
+            </div>
+            <hr class="mb-4">
+            <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+                <span *ngIf="errorMessage">{{errorMessage}}</span>
+            </div>
+            <div class="float-right">
+                <a routerLink="/delivery" class="btn btn-secondary mr-2">Cancel</a>
+                <button *ngIf="id" type="button" (click)="onDelete()" class="btn btn-secondary mr-2">Delete</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+<div class="row my-4">
+  <div class="col-md-12">
+    <h4 class="mb-3">Invite User</h4>
+    <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+      <span *ngIf="errorMessage">{{errorMessage}}</span>
+    </div>
+    <div *ngIf="message" class="alert alert-success" role="alert">
+      <span *ngIf="message">{{message}}</span>
+    </div>
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" novalidate>
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input formControlName="firstName" id="firstName" class="form-control"
+          [ngClass]="{ 'is-invalid': isInvalid('firstName') }">
+        <div *ngIf="isInvalid('firstName')" class="invalid-feedback">
+          <span *ngIf="firstName.errors?.required">First Name is required</span>
+          <span *ngIf="firstName.errors?.maxlength">First Name most be max 100 characters long</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input formControlName="lastName" id="lastName" class="form-control"
+          [ngClass]="{ 'is-invalid': isInvalid('lastName') }">
+        <div *ngIf="isInvalid('lastName')" class="invalid-feedback">
+          <span *ngIf="lastName.errors?.required">Last Name is required</span>
+          <span *ngIf="lastName.errors?.maxlength">Last Name most be max 100 characters long</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input formControlName="email" id="email" class="form-control" [ngClass]="{ 'is-invalid': isInvalid('email') }">
+        <div *ngIf="isInvalid('email')" class="invalid-feedback">
+          <span *ngIf="email.errors?.required">Email is required</span>
+          <span *ngIf="email.errors?.maxlength">Email most be max 200 characters long</span>
+          <span *ngIf="email.errors?.pattern">Email most be in email format email@email.com</span>
+        </div>
+      </div>
+      <hr class="mb-4">
+      <div class="float-right">
+        <a routerLink="/users" class="btn btn-secondary mr-2">Cancel</a>
+        <button type="submit" class="btn btn-primary">Invite</button>
+      </div>
+    </form>
+  </div>
+</div>

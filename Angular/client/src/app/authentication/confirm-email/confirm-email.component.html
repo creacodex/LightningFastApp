@@ -1,0 +1,15 @@
+<div class="row my-4">
+    <div class="col-md-12">
+        <h4 class="mb-3">Confirm Email</h4>
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+            <span *ngIf="errorMessage">{{errorMessage}}</span>
+        </div>
+        <div *ngIf="message" class="alert alert-success" role="alert">
+          <span *ngIf="message">{{message}}</span>
+        </div>
+        <hr class="mb-4">
+        <div class="float-right">
+            <a routerLink="/authentication/login" class="btn btn-primary">Ok</a>
+        </div>
+    </div>
+</div>

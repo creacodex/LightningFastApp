@@ -1,0 +1,88 @@
+﻿<div class="row my-4">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <a routerLink="/authentication/invite" class="btn btn-primary float-right">Invite User</a>
+            </div>
+        </div>
+        <h4 class="mb-3">Users List</h4>
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+          <span *ngIf="errorMessage">{{errorMessage}}</span>
+        </div>
+        <form [formGroup]="formGroup" novalidate>
+            <div class="form-row">
+                <div class="col-9">
+                    <input formControlName="search" class="form-control" placeholder="Search for">
+                </div>
+                <div class="col-1">
+                    <button type="button" (click)="searchFor()" class="btn btn-primary">Search</button>
+                </div>
+                <div class="col-1 offset-1">
+                    <select formControlName="pageSize" (change)="onPageSizeChange()" class="form-control">
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="75">75</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+            <table class="table mt-3">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Email Confirmed</th>
+                        <th scope="col">Phone Number</th>
+                        <th scope="col" class="text-center">Phone Number Confirmed</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="!entitiesResult" class="text-center">
+                        <td colspan="3">Loading...</td>
+                    </tr>
+                    <tr *ngFor="let users of entitiesResult?.entities">
+                        <td>{{users.firstName}}</td>
+                        <td>{{users.lastName}}</td>
+                        <td>{{users.email}}</td>
+                        <td class="text-center">{{users.emailConfirmed | yesNo}}</td>
+                        <td>{{users.phoneNumber}}</td>
+                        <td class="text-center">{{users.phoneNumberConfirmed | yesNo}}</td>
+                        <td class="text-right">
+                            <a [routerLink]="['../edit', users.id]" class="btn btn-link">Edit</a>|
+                            <button type="button" (click)="delete(users.id)" class="btn btn-link" >Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="form-row">
+                <div class="col-8">
+                    <span>Total records</span>&nbsp;<span>{{totalRows}}</span>
+                </div>
+                <div class="col-4">
+                    <nav>
+                        <ul class="pagination justify-content-end">
+                            <li *ngIf="totalPages != 1" class="page-item">
+                                <a [routerLink]="['./']" [queryParams]="{ page: 1, pageSize: pageSize.value }" class="page-link" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            <li *ngFor="let i of pages" class="page-item">
+                                <a [routerLink]="['./']" [queryParams]="{ page: i, pageSize: pageSize.value }" class="page-link">{{i}}</a>
+                            </li>
+                            <li *ngIf="totalPages != 1" class="page-item">
+                                <a [routerLink]="['./']" [queryParams]="{ page: totalPages, pageSize: pageSize.value }" class="page-link" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

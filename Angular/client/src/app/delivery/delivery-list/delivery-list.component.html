@@ -1,0 +1,85 @@
+<div class="row my-4">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <a routerLink="../edit" class="btn btn-primary float-right">Add</a>
+            </div>
+        </div>
+        <h4 class="mb-3">Delivery List</h4>
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+            <span *ngIf="errorMessage">{{errorMessage}}</span>
+        </div>
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" novalidate>
+            <div class="form-row">
+                <div class="col-9">
+                    <div class="input-group mb-3">
+                        <input type="text" formControlName="search" class="form-control" placeholder="Search for">
+                        <button (click)="clear()" *ngIf="formGroup.get('search').value" class="btn bg-transparent clear">
+                            <i class="fa fa-times"></i>
+                          </button>
+                    </div>
+                </div>
+                <div class="col-1">
+                    <button type="button" (click)="searchFor()" class="btn btn-primary">Search</button>
+                </div>
+                <div class="col-1 offset-1">
+                    <select [(ngModel)]="pageSize" (change)="onPageSizeChange()" [ngModelOptions]="{standalone: true}" class="form-control">
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="75">75</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+            <table class="table table-hover mt-3">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col" sortable="reference" (sort)="onSort($event)" class="text-right">Reference</th>
+                        <th scope="col" sortable="startDate" (sort)="onSort($event)">StartDate</th>
+                        <th scope="col" sortable="updateDate" (sort)="onSort($event)">UpdateDate</th>
+                        <th scope="col" sortable="shippingTypeId" (sort)="onSort($event)">ShippingTypeId</th>
+                        <th scope="col" sortable="carrierTypeId" (sort)="onSort($event)">CarrierTypeId</th>
+                        <th scope="col" sortable="deliveryDate" (sort)="onSort($event)">DeliveryDate</th>
+                        <th scope="col" sortable="quantity" (sort)="onSort($event)" class="text-right">Quantity</th>
+                        <th scope="col" sortable="price" (sort)="onSort($event)" class="text-right">Price</th>
+                        <th scope="col" sortable="discount" (sort)="onSort($event)" class="text-right">Discount</th>
+                        <th scope="col" sortable="acceptCondition" (sort)="onSort($event)" class="text-center">AcceptConditions</th>
+                        <th scope="col" sortable="clientId" (sort)="onSort($event)">ClientId</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="!entitiesResult" class="text-center">
+                        <td colspan="3">Loading...</td>
+                    </tr>
+                    <tr *ngFor="let delivery of entitiesResult?.entities">
+                        <td class="text-right">{{delivery.reference}}</td>
+                        <td>{{delivery.startDate | date:"dd/MM/yyyy" }}</td>
+                        <td>{{delivery.updateDate | date:"dd/MM/yyyy" }}</td>
+                        <td>{{delivery.shippingTypeId}}</td>
+                        <td>{{delivery.carrierTypeId}}</td>
+                        <td>{{delivery.deliveryDate | date:"dd/MM/yyyy" }}</td>
+                        <td class="text-right">{{delivery.quantity}}</td>
+                        <td class="text-right">{{delivery.price}}</td>
+                        <td class="text-right">{{delivery.discount}}</td>
+                        <td class="text-center">{{delivery.acceptCondition | yesNo }}</td>
+                        <td>{{delivery.clientId}}</td>
+                        <td class="text-right">
+                            <a [routerLink]="['../edit', delivery.id]" class="btn btn-link">Edit</a>|
+                            <button type="button" (click)="delete(delivery.id)" class="btn btn-link" >Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="form-row">
+                <div class="col-8">
+                    <span>Total records</span>&nbsp;<span>{{totalRows}}</span>
+                </div>
+                <div class="col-4" >
+                    <ngb-pagination [collectionSize]="totalRows" [(page)]="page" [pageSize]="pageSize" (pageChange)="onPagerChange()" class="d-flex justify-content-end">
+                    </ngb-pagination>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+<div class="row my-4">
+    <div class="col-md-12">
+        <h4 class="mb-3">Shipping Type Details</h4>
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+            <span *ngIf="errorMessage">{{errorMessage}}</span>
+        </div>
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" novalidate>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input formControlName="name" id="name" class="form-control" [ngClass]="{ 'is-invalid': isInvalid('name') }">
+                <div *ngIf="isInvalid('name')" class="invalid-feedback">
+                    <span *ngIf="name.errors?.required">Name is required</span>
+                    <span *ngIf="name.errors?.maxlength">Name must be max 20 characters long</span>
+                </div>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" formControlName="isVisible" id="isVisible" class="form-check-input">
+                <label for="isVisible" class="form-check-label">IsVisible</label>
+            </div>
+            <hr class="mb-4">
+            <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+                <span *ngIf="errorMessage">{{errorMessage}}</span>
+            </div>
+            <div class="float-right">
+                <a routerLink="/shippingtype" class="btn btn-secondary mr-2">Cancel</a>
+                <button *ngIf="id" type="button" (click)="onDelete()" class="btn btn-secondary mr-2">Delete</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

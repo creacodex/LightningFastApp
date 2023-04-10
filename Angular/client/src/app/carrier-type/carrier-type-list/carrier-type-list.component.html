@@ -1,0 +1,67 @@
+<div class="row my-4">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <a routerLink="../edit" class="btn btn-primary float-right">Add</a>
+            </div>
+        </div>
+        <h4 class="mb-3">Carrier Type List</h4>
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+            <span *ngIf="errorMessage">{{errorMessage}}</span>
+        </div>
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" novalidate>
+            <div class="form-row">
+                <div class="col-9">
+                    <div class="input-group mb-3">
+                        <input type="text" formControlName="search" class="form-control" placeholder="Search for">
+                        <button (click)="clear()" *ngIf="formGroup.get('search').value" class="btn bg-transparent clear">
+                            <i class="fa fa-times"></i>
+                          </button>
+                    </div>
+                </div>
+                <div class="col-1">
+                    <button type="button" (click)="searchFor()" class="btn btn-primary">Search</button>
+                </div>
+                <div class="col-1 offset-1">
+                    <select [(ngModel)]="pageSize" (change)="onPageSizeChange()" [ngModelOptions]="{standalone: true}" class="form-control">
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="75">75</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+            <table class="table table-hover mt-3">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col" sortable="name" (sort)="onSort($event)">Name</th>
+                        <th scope="col" sortable="isVisible" (sort)="onSort($event)" class="text-center">IsVisible</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="!entitiesResult" class="text-center">
+                        <td colspan="3">Loading...</td>
+                    </tr>
+                    <tr *ngFor="let carrierType of entitiesResult?.entities">
+                        <td>{{carrierType.name}}</td>
+                        <td class="text-center">{{carrierType.isVisible | yesNo }}</td>
+                        <td class="text-right">
+                            <a [routerLink]="['../edit', carrierType.id]" class="btn btn-link">Edit</a>|
+                            <button type="button" (click)="delete(carrierType.id)" class="btn btn-link" >Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="form-row">
+                <div class="col-8">
+                    <span>Total records</span>&nbsp;<span>{{totalRows}}</span>
+                </div>
+                <div class="col-4" >
+                    <ngb-pagination [collectionSize]="totalRows" [(page)]="page" [pageSize]="pageSize" (pageChange)="onPagerChange()" class="d-flex justify-content-end">
+                    </ngb-pagination>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

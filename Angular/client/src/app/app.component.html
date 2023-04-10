@@ -1,0 +1,54 @@
+  <header *ngIf="currentUser">
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="#">CreaCodeX</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="">Dashboard<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false">Menu</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              <a class="dropdown-item" routerLink="carrier-type">Carrier Type</a>
+              <a class="dropdown-item" routerLink="client">Client</a>
+              <a class="dropdown-item" routerLink="delivery">Delivery</a>
+              <a class="dropdown-item" routerLink="shipping-type">Shipping Type</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false">Users</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown02">
+              <a class="dropdown-item" routerLink="users">Users</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="userprofile">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="authentication/logout">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Begin page content -->
+  <main role="main" class="flex-shrink-0">
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <footer class="footer mt-auto py-3" *ngIf="currentUser">
+    <div class="container">
+      <span class="text-muted">CreaCodeX</span>
+    </div>
+  </footer>
+
